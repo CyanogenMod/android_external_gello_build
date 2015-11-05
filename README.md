@@ -10,12 +10,10 @@ Features
 ----------
 - *-h*          = Show help message
 - *-v*          = Verbose mode, show more details
-- *--fast*      = Skip sync and runhooks, useful for testing changes
-- *--clean*     = Remove the whole Gello build system
 - *--depot*     = Install Depot Tool
+- *--fast*      = Skip sync and runhooks, useful for testing changes
 - *--mp*        = Once everything else is done, install the given apk on a connected device
 - *--no-sync*   = Skip sync
-- *--verbose*   = As "-v", show more details
 
 Setup
 ----------

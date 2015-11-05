@@ -1,0 +1,8 @@
+env/src
+env/_*
+env/build
+
+Gello.apk
+.cm_done
+
+depot
