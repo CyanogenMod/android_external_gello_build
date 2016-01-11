@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-#  Copyright (C) 2015 The CyanogenMod Project
+#  Copyright (C) 2016 The CyanogenMod Project
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -146,14 +146,14 @@ function checkflags() {
 #
 function helpgello() {
     cat<<EOF
-Gello inline build system (c) CyanogenMod 2015
+Gello inline build system (c) CyanogenMod 2016
 Usage: ./gello_build.sh <flags>
 flags:
     -h            = Show this message
     -v            = Verbose mode, show more details
     --depot       = Install Depot Tool
     --fast        = Skip sync and runhooks, useful for testing changes
-    --push         = Once everything else is done, install the given apk on a connected device
+    --push        = Once everything else is done, install the given apk on a connected device
     --no-sync     = Skip sync
 EOF
 }

@@ -5,7 +5,7 @@ solutions = [
     "managed"     : True,
     "safesync_url": "",
     "custom_deps" : {
-        "src/swe/browser" : "https://github.com/jrizzoli/android_packages_apps_gello.git@refs/remotes/origin/cm-12.1"
+        "src/swe/browser" : "https://github.com/CyanogenMod/android_packages_apps_gello.git@refs/remotes/origin/cm-13.0"
     }
   },
 ]
