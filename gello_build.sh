@@ -216,7 +216,7 @@ if [ "$?" == 0 ]; then
     echo "$(tput setaf 2)Done! Gello: $READY_APK$(tput sgr reset)"
 
     if [ "$PUSH" == true ]; then
-        if [ ! -x $(which adb) ]; then
+        if [ -x $(which adb) ]; then
             adb wait-for-device
             adb install -r -d $TOP_GELLO/Gello.apk
             exit $?
