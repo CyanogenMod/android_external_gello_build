@@ -158,10 +158,8 @@ function helpgello() {
 Gello inline build system (c) CyanogenMod 2016
 Usage: ./gello_build.sh <flags>
 flags:
-    -h            = Show this message
-    -v            = Verbose mode, show more details
     --depot       = Install Depot Tool
-    --fast        = Skip sync and runhooks, useful for testing changes
+    --fast        = Skip sync and runhooks, useful for testing local changes
     --push        = Once everything else is done, install the given apk on a connected device
     --no-sync     = Skip sync
 EOF
