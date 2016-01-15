@@ -33,12 +33,24 @@ FAST=false
 PUSH=false
 NOSYNC=false
 VERBOSE=false
-
+CLEAN=false
 
 ##
 # Sync
 #
 function sync() {
+    if [ "$CLEAN" == true ]; then
+        cd $TOP_GELLO/env
+
+        echo "Cleaning..."
+
+        # Clean out stuffs
+        rm -rf $SRC_GELLO/out
+        find $TOP_GELLO -name index.lock -exec rm {} \;
+        gclient recurse git clean -fdx .
+
+    fi
+
     if [ "$NOSYNC" != true ]; then
         cd $TOP_GELLO/env
 
@@ -50,7 +62,14 @@ function sync() {
 
         echo "Syncing now!"
         gclient sync -n --no-nag-max
-        return $?
+        local SYNCRET=$?
+
+        if [ "$CLEAN" == true ] && [ "$SYNCRET" == 0 ]; then
+            gclient recurse git clean -fdx .
+            return $?
+        else
+            return $SYNCRET
+        fi
     else
         return 0
     fi
@@ -128,25 +147,36 @@ function compile() {
 #
 function checkflags() {
     if [ "$1" == "--verbose" ] || [ "$2" == "--verbose" ] ||
-       [ "$3" == "--verbose" ] || [ "$4" == "--verbose" ]; then
+       [ "$3" == "--verbose" ] || [ "$4" == "--verbose" ] ||
+       [ "$5" == "--verbose" ]; then
         VERBOSE=true
     fi
 
     if [ "$1" == "--fast" ] || [ "$2" == "--fast" ] ||
-       [ "$3" == "--fast" ] || [ "$4" == "--fast" ]; then
+       [ "$3" == "--fast" ] || [ "$4" == "--fast" ] ||
+       [ "$5" == "--fast" ]; then
         NOSYNC=true
         FAST=true
     fi
 
     if [ "$1" == "--no-sync" ] || [ "$2" == "--no-sync" ] ||
-       [ "$3" == "--no-sync" ] || [ "$4" == "--no-sync" ]; then
+       [ "$3" == "--no-sync" ] || [ "$4" == "--no-sync" ] ||
+       [ "$5" == "--no-sync" ]; then
         NOSYNC=true
     fi
 
     if [ "$1" == "--push" ] || [ "$2" == "--push" ] ||
-       [ "$3" == "--push" ] || [ "$4" == "--push" ]; then
+       [ "$3" == "--push" ] || [ "$4" == "--push" ] ||
+       [ "$5" == "--push" ]; then
         PUSH=true
     fi
+
+    if [ "$1" == "--clean" ] || [ "$2" == "--clean" ] ||
+       [ "$3" == "--clean" ] || [ "$4" == "--clean" ] ||
+       [ "$5" == "--clean" ]; then
+        CLEAN=true
+    fi
+
 }
 
 
@@ -158,6 +188,7 @@ function helpgello() {
 Gello inline build system (c) CyanogenMod 2016
 Usage: ./gello_build.sh <flags>
 flags:
+    --clean       = Make a clean build
     --depot       = Install Depot Tool
     --fast        = Skip sync and runhooks, useful for testing local changes
     --push        = Once everything else is done, install the given apk on a connected device
@@ -188,7 +219,7 @@ elif [ "$1" == "--help" ]; then
     helpgello && exit 0
 fi
 
-checkflags $1 $2 $3 $4
+checkflags $1 $2 $3 $4 $5
 
 sync && setup && compile
 
