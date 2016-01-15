@@ -1,5 +1,6 @@
 env/src
 env/_*
+env/.gclient_entries
 env/build
 
 Gello.apk
