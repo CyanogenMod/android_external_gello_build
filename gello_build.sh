@@ -66,6 +66,10 @@ function setup() {
 
     cd $SRC_GELLO
 
+    if [ ! -f $DONE_FILE ]; then
+        touch $DONE_FILE
+    fi
+
     . build/android/envsetup.sh
 
     if [ "$FAST" != true ] && [ -f $DONE_FILE ]; then
@@ -74,10 +78,6 @@ function setup() {
         return $?
     else
         return 0
-    fi
-
-    if [ ! -f $DONE_FILE ]; then
-        touch $DONE_FILE
     fi
 
     # If we don't have Google SDKs, get them
@@ -98,6 +98,15 @@ function compile() {
     local OUT_TARGET=$TOP_GELLO/Gello.apk
 
     cd $SRC_GELLO
+
+    # Gello "shell" builds only if we have WITH_GELLO_SOURCE == true ,
+    # this script is running, so it should already be true
+    # if we're just doing tests we may have not that as true, set it
+    # otherwise it won't hurt
+
+    if [ "$WITH_GELLO_SOURCE" != true ]; then
+        WITH_GELLO_SOURCE=true
+    fi
 
     # Make things
     ninja -C out/Release swe_android_browser_apk
