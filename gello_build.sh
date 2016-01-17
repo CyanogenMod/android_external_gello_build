@@ -32,7 +32,6 @@ READY_APK=$TOP_GELLO/Gello.apk
 FAST=false
 PUSH=false
 NOSYNC=false
-VERBOSE=false
 CLEAN=false
 
 ##
@@ -122,7 +121,6 @@ function compile() {
     # this script is running, so it should already be true
     # if we're just doing tests we may have not that as true, set it
     # otherwise it won't hurt
-
     if [ "$WITH_GELLO_SOURCE" != true ]; then
         WITH_GELLO_SOURCE=true
     fi
@@ -149,9 +147,6 @@ function parseflags() {
     for flag in "$@"
     do
         case "$flag" in
-            --verbose)
-                VERBOSE=true
-                ;;
             --fast)
                 NOSYNC=true
                 FAST=true
