@@ -145,38 +145,28 @@ function compile() {
 ##
 # Check Flags
 #
-function checkflags() {
-    if [ "$1" == "--verbose" ] || [ "$2" == "--verbose" ] ||
-       [ "$3" == "--verbose" ] || [ "$4" == "--verbose" ] ||
-       [ "$5" == "--verbose" ]; then
-        VERBOSE=true
-    fi
-
-    if [ "$1" == "--fast" ] || [ "$2" == "--fast" ] ||
-       [ "$3" == "--fast" ] || [ "$4" == "--fast" ] ||
-       [ "$5" == "--fast" ]; then
-        NOSYNC=true
-        FAST=true
-    fi
-
-    if [ "$1" == "--no-sync" ] || [ "$2" == "--no-sync" ] ||
-       [ "$3" == "--no-sync" ] || [ "$4" == "--no-sync" ] ||
-       [ "$5" == "--no-sync" ]; then
-        NOSYNC=true
-    fi
-
-    if [ "$1" == "--push" ] || [ "$2" == "--push" ] ||
-       [ "$3" == "--push" ] || [ "$4" == "--push" ] ||
-       [ "$5" == "--push" ]; then
-        PUSH=true
-    fi
-
-    if [ "$1" == "--clean" ] || [ "$2" == "--clean" ] ||
-       [ "$3" == "--clean" ] || [ "$4" == "--clean" ] ||
-       [ "$5" == "--clean" ]; then
-        CLEAN=true
-    fi
-
+function parseflags() {
+    for flag in "$@"
+    do
+        case "$flag" in
+            --verbose)
+                VERBOSE=true
+                ;;
+            --fast)
+                NOSYNC=true
+                FAST=true
+                ;;
+            --no-sync)
+                NOSYNC=true
+                ;;
+            --push)
+                PUSH=true
+                ;;
+            --clean)
+                CLEAN=true
+                ;;
+        esac
+    done
 }
 
 
@@ -218,7 +208,7 @@ elif [ "$1" == "--help" ]; then
     helpgello && exit 0
 fi
 
-checkflags $1 $2 $3 $4 $5
+parseflags "$@"
 
 sync && setup && compile
 
