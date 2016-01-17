@@ -54,12 +54,6 @@ function sync() {
     if [ "$NOSYNC" != true ]; then
         cd $TOP_GELLO/env
 
-        # If we have previously downloaded depot tools using this script
-        # export its path for us
-        if [ -d "$TOP_GELLO/depot/depot_tools" ]; then
-            export PATH=$PATH:$TOP_GELLO/depot/depot_tools
-        fi
-
         echo "Syncing now!"
         gclient sync -n --no-nag-max
         local SYNCRET=$?
@@ -212,6 +206,12 @@ function getdepot() {
 ##
 # Main
 #
+
+# If we have previously downloaded depot tools using this script
+# export its path for us
+if [ -d "$TOP_GELLO/depot/depot_tools" ]; then
+    export PATH=$PATH:$TOP_GELLO/depot/depot_tools
+fi
 
 if [ "$1" == "--depot" ]; then
     getdepot && exit 0
