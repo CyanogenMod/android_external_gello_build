@@ -23,6 +23,9 @@
 TOP_GELLO=$(pwd)
 SRC_GELLO=$TOP_GELLO/env/src
 
+BACKUP_GELLO=$SRC_GELLO/swe/browser_orig
+BUILD_GELLO=$SRC_GELLO/swe/browser
+
 READY_APK=$TOP_GELLO/Gello.apk
 
 
@@ -33,6 +36,7 @@ FAST=false
 PUSH=false
 NOSYNC=false
 CLEAN=false
+LOCAL=false
 
 ##
 # Sync
@@ -81,6 +85,7 @@ function sync() {
 function setup() {
     local DONE_FILE=$TOP_GELLO/.cm_done
     local GOOGLE_SDK=$SRC_GELLO/third_party/android_tools/sdk/extras/google/google_play_services
+    local LOCAL_GELLO=$TOP_GELLO/../../packages/apps/Gello
 
     cd $SRC_GELLO
 
@@ -89,6 +94,19 @@ function setup() {
     fi
 
     . build/android/envsetup.sh
+
+    # If local is enabled we will be using local gello shell instead of synced one
+    if [ "$LOCAL" == true ]; then
+        if [ -d $LOCAL_GELLO ]; then
+            if [ -d $BUILD_GELLO ]; then
+                mv $BUILD_GELLO $BACKUP_GELLO
+            fi
+            cp -r $LOCAL_GELLO $BUILD_GELLO
+        else
+            echo "No local Gello found (excepted to be at $LOCAL_GELLO)"
+            return 4
+        fi
+    fi
 
     if [ "$FAST" != true ] && [ -f $DONE_FILE ]; then
         # !! The first time it asks a manual input to accept licenses !!
@@ -103,8 +121,6 @@ function setup() {
     if [ ! -d $GOOGLE_SDK ]; then
         bash $SRC_GELLO/build/install-android-sdks.sh
     fi
-
-
 }
 
 
@@ -127,8 +143,14 @@ function compile() {
 
     # Make things
     ninja -C out/Release swe_android_browser_apk
+    local BUILDRET=$?
 
-    if [ "$?" == 0 ]; then
+    if [ "$LOCAL" == true ]; then
+        rm -rf $BUILD_GELLO
+        mv $BACKUP_GELLO $BUILD_GELLO
+    fi
+
+    if [ "$BUILDRET" == 0 ]; then
         if [ -f "$OUT_TARGET" ]; then
             rm -f $OUT_TARGET
         fi
@@ -160,6 +182,10 @@ function parseflags() {
             --clean)
                 CLEAN=true
                 ;;
+            --local)
+                NOSYNC=true
+                LOCAL=true
+                ;;
         esac
     done
 }
@@ -176,6 +202,7 @@ flags:
     --clean       = Make a clean build
     --depot       = Install Depot Tool
     --fast        = Skip sync and runhooks, useful for testing local changes
+    --local       = Pick local gello from packages/apps/Gello (for testing purpose)
     --push        = Once everything else is done, install the given apk on a connected device
     --no-sync     = Skip sync
 EOF

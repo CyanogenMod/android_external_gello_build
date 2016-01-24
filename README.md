@@ -11,6 +11,7 @@ Features
 - *--clean*     = Make a clean build
 - *--depot*     = Install Depot Tool
 - *--fast*      = Skip sync and runhooks, useful for testing changes
+- *--local*     = Pick local gello from packages/apps/Gello (for testing purpose)
 - *--push*      = Once everything else is done, install the given apk on a connected device
 - *--no-sync*   = Skip sync
 
