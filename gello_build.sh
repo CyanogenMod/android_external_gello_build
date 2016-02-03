@@ -20,7 +20,7 @@
 ##
 # Variables
 #
-TOP_GELLO=$(pwd)
+TOP_GELLO=$(pwd)/external/gello-build
 SRC_GELLO=$TOP_GELLO/env/src
 
 BACKUP_GELLO=$SRC_GELLO/swe/browser_orig
@@ -219,7 +219,6 @@ function getdepot() {
     cd depot
     git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
 }
-
 
 ##
 # Main
