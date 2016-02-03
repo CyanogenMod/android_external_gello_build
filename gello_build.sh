@@ -17,16 +17,7 @@
 #  Integrated SWE Build System for Gello
 #
 
-##
-# Variables
-#
 TOP_GELLO=$(pwd)
-SRC_GELLO=$TOP_GELLO/env/src
-
-BACKUP_GELLO=$SRC_GELLO/swe/browser_orig
-BUILD_GELLO=$SRC_GELLO/swe/browser
-
-READY_APK=$TOP_GELLO/Gello.apk
 
 
 ##
@@ -190,6 +181,26 @@ function parseflags() {
     done
 }
 
+##
+# PathValidator
+#
+function pathvalidator() {
+    local ENV_PATH=$TOP_GELLO/external/gello-build
+
+    # Adjust path to make sure it works both from make and manual sh execution
+    if [ ! -d "$TOP_GELLO/env/src" ]; then
+        if [ -d "$ENV_PATH" ]; then
+            TOP_GELLO=$ENV_PATH
+        fi
+    fi
+
+    # Set up paths now
+    SRC_GELLO=$TOP_GELLO/env/src
+    BACKUP_GELLO=$SRC_GELLO/swe/browser_orig
+    BUILD_GELLO=$SRC_GELLO/swe/browser
+    READY_APK=$TOP_GELLO/Gello.apk
+}
+
 
 ##
 # Help
@@ -220,10 +231,11 @@ function getdepot() {
     git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
 }
 
-
 ##
 # Main
 #
+pathvalidator
+
 if [ "$1" == "--depot" ]; then
     getdepot && exit 0
 elif [ "$1" == "--help" ]; then
@@ -231,6 +243,7 @@ elif [ "$1" == "--help" ]; then
 fi
 
 parseflags "$@"
+
 
 sync && setup && compile
 
