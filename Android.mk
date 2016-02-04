@@ -26,8 +26,14 @@ LOCAL_CERTIFICATE := $(DEFAULT_SYSTEM_DEV_CERTIFICATE)
 
 ifeq ($(WITH_GELLO_SOURCE),true)
 # Build from source
+ifeq ($(LOCAL_GELLO),true)
+BUILD_GELLO := $(info $(shell bash $(LOCAL_PATH)/gello_build.sh --local 1>&2))
+else
 BUILD_GELLO := $(info $(shell bash $(LOCAL_PATH)/gello_build.sh 1>&2))
+endif
 LOCAL_SRC_FILES := Gello.apk
+else
+include ../../vendor/gello/Android.mk
 endif
 
 include $(BUILD_PREBUILT)
