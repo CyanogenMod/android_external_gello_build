@@ -1,0 +1,47 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.cyanogenmod</groupId>
+    <artifactId>Gello</artifactId>
+    <version>6.2.4</version>
+    <packaging>apk</packaging>
+
+    <name>CyanogenMod Gello</name>
+    <description>CyanogenMod Gello browser prebuilt apk</description>
+    <url>https://github.com/CyanogenMod/android_packages_apps_Gello</url>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>org.cyanogenmod.oss</id>
+            <name>CyanogenMod OSS Maven</name>
+            <email>devrel@cyanogenmod.org</email>
+            <url>http://www.cyanogenmod.org</url>
+            <organization>CyanogenMod</organization>
+            <organizationUrl>http://www.cynanogenmod.org</organizationUrl>
+        </developer>
+        <developer>
+            <id>io.nolinuxnoparty@gmail.com</id>
+            <name>Joey Rizzoli</name>
+            <email>joey@cyanogenmoditalia.it</email>
+            <url>http://www.github.com/jrizzoli</url>
+            <roles>
+                <role>deployer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <scm>
+        <url>https://github.com/CyanogenMod/android_packages_apps_gello</url>
+        <connection>scm:git:git://github.com/CyanogenMod/android_packages_apps_gello.git</connection>
+        <developerConnection>scm:git:git@github.com:CyanogenMod/android_packages_apps_gello.git</developerConnection>
+    </scm>
+</project>
