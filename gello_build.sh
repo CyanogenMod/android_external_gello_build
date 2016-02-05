@@ -124,13 +124,9 @@ function compile() {
 
     cd $SRC_GELLO
 
-    # Gello "shell" builds only if we have WITH_GELLO_SOURCE == true ,
-    # this script is running, so it should already be true
-    # if we're just doing tests we may have not that as true, set it
-    # otherwise it won't hurt
-    if [ "$WITH_GELLO_SOURCE" != true ]; then
-        WITH_GELLO_SOURCE=true
-    fi
+    # Gello "shell" builds only if we have GELLO_SRC == true ,
+    # because we just wait it to build from here
+    GELLO_SRC=true
 
     # Make things
     ninja -C out/Release swe_android_browser_apk
