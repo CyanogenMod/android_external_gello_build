@@ -24,7 +24,6 @@ TOP_GELLO=$(pwd)
 # Flag Booleans
 #
 FAST=false
-PUSH=false
 NOSYNC=false
 CLEAN=false
 LOCAL=false
@@ -165,9 +164,6 @@ function parseflags() {
             --no-sync)
                 NOSYNC=true
                 ;;
-            --push)
-                PUSH=true
-                ;;
             --clean)
                 CLEAN=true
                 ;;
@@ -178,6 +174,7 @@ function parseflags() {
         esac
     done
 }
+
 
 ##
 # PathValidator
@@ -212,7 +209,6 @@ flags:
     --depot       = Install Depot Tool
     --fast        = Skip sync and runhooks, useful for testing local changes
     --local       = Pick local gello from packages/apps/Gello (for testing purpose)
-    --push        = Once everything else is done, install the given apk on a connected device
     --no-sync     = Skip sync
 EOF
 }
@@ -229,6 +225,7 @@ function getdepot() {
     git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
 }
 
+
 ##
 # Main
 #
@@ -242,22 +239,9 @@ fi
 
 parseflags "$@"
 
-
 sync && setup && compile
 
 if [ "$?" == 0 ]; then
     echo "$(tput setaf 2)Done! Gello: $READY_APK$(tput sgr reset)"
-
-    if [ "$PUSH" == true ]; then
-        if [ -x $(which adb) ]; then
-            adb wait-for-device
-            adb install -r -d $TOP_GELLO/Gello.apk
-            exit $?
-        else
-            echo "Adb not found! Unable to push gello to device!"
-            exit 3
-        fi
-    fi
-
     exit 0
 fi
