@@ -4,6 +4,7 @@ solutions = [
     "deps_file"   : "DEPS",
     "managed"     : True,
     "safesync_url": "",
+    "managed"     : False,
     "custom_deps" : {
         "src/swe/browser" : "https://github.com/CyanogenMod/android_packages_apps_gello.git@refs/remotes/origin/cm-13.0"
     }
