@@ -35,7 +35,14 @@ BUILD_GELLO := $(info $(shell bash $(LOCAL_PATH)/gello_build.sh 1>&2))
 endif
 LOCAL_SRC_FILES := Gello.apk
 else
-include ../../vendor/gello/Android.mk
+LOCAL_MAVEN_REPO := https://maven.cyanogenmod.org/artifactory/gello_prebuilds
+LOCAL_MAVEN_GROUP := org.cyanogenmod
+LOCAL_MAVEN_VERSION := 15
+LOCAL_MAVEN_ARTIFACT := gello
+LOCAL_MAVEN_PACKAGING := apk
+
+include $(BUILD_MAVEN_PREBUILT)
+
 endif
 
 include $(BUILD_PREBUILT)
